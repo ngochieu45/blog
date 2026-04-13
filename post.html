@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Post – MyBlog</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <header>
+        <nav>
+            <span class="logo">MyBlog</span>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="blog.html" class="active">Blog</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <article class="post-page">
+        <div class="post-header">
+            <span class="tag">JavaScript</span>
+            <h1>Understanding Async/Await in Depth</h1>
+            <div class="post-meta">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=myblog" alt="Alex" class="author-avatar" />
+                <span>Alex Johnson</span>
+                <span>·</span>
+                <span>April 10, 2026</span>
+                <span>·</span>
+                <span>5 min read</span>
+            </div>
+        </div>
+
+        <div class="post-body">
+            <p>Async/await is one of the most powerful features in modern JavaScript, but it's often misunderstood. In
+                this post, we'll go beyond the basics and look at what's really happening under the hood.</p>
+
+            <h2>What is async/await?</h2>
+            <p>At its core, <code>async/await</code> is syntactic sugar over Promises. When you mark a function as
+                <code>async</code>, it automatically returns a Promise. The <code>await</code> keyword pauses execution
+                inside that function until the Promise resolves.</p>
+
+            <pre><code>async function fetchUser(id) {
+  const response = await fetch(`/api/users/${id}`);
+  const user = await response.json();
+  return user;
+}</code></pre>
+
+            <h2>Common Pitfalls</h2>
+            <p>One of the most common mistakes is using <code>await</code> inside a <code>forEach</code> loop. This
+                doesn't work as expected because <code>forEach</code> doesn't await the callback.</p>
+
+            <pre><code>// ❌ This won't work as expected
+items.forEach(async (item) => {
+  await processItem(item);
+});
+
+// ✅ Use for...of instead
+for (const item of items) {
+  await processItem(item);
+}</code></pre>
+
+            <h2>Parallel Execution</h2>
+            <p>When you have independent async operations, run them in parallel with <code>Promise.all</code> instead of
+                awaiting them sequentially.</p>
+
+            <pre><code>// ❌ Sequential – slow
+const user = await getUser(id);
+const posts = await getPosts(id);
+
+// ✅ Parallel – fast
+const [user, posts] = await Promise.all([getUser(id), getPosts(id)]);</code></pre>
+
+            <p>Understanding these patterns will make your async code both more correct and more performant. Happy
+                coding!</p>
+        </div>
+
+        <div class="post-footer">
+            <a href="blog.html" class="btn btn-outline">← Back to Blog</a>
+        </div>
+    </article>
+
+    <footer>
+        <p>© 2026 Alex Johnson · Built with ❤️</p>
+        <div class="social-links">
+            <a href="#">GitHub</a>
+            <a href="#">Twitter</a>
+            <a href="#">LinkedIn</a>
+        </div>
+    </footer>
+</body>
+
+</html>
